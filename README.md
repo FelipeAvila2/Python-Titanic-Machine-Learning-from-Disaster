@@ -31,7 +31,27 @@ The first thing that came into my mind was to find the right features. Eliminate
 
 There was a single feature that was engineered and it was the Tittle Holder. This feature is boolean and tells if the person is a commoner or a title holder:
 
-![image](https://user-images.githubusercontent.com/83870535/129712681-77619a34-519f-4912-a7df-754f815beaf6.png)
+```python
+import re
+
+def titleholder(row):
+    return re.findall(", .+\.", row)[0].replace(',','').split()[0]
+
+data_dummied['title'] = data_dummied['Name'].apply(titleholder)
+
+titles = ['Mr.','Mrs.','Master.','Miss.']
+
+def title_holder(row):
+    if row in titles:
+        return 0
+    else:
+        return 1
+
+data_dummied['title_holder?'] = data_dummied['title'].apply(title_holder)
+
+data_cleaned = data_dummied.drop(columns=['Name','title'])
+
+```
 
 ## Model
 
